@@ -1,0 +1,13 @@
+    pre {
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 15px;
+    background-color: #fafafa;
+    border: 1px solid #999;
+    float: left;
+    font-family:'Courier New', 'Courier', monospaced;
+}
+h3 {
+    clear: both;
+    padding-top: 20px;
+}
