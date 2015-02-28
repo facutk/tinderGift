@@ -14,35 +14,19 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase'])
         $window.dispatchEvent(new Event('fb.load'));
     });
 }])
-.factory('Auth', ['$firebaseAuth', function($firebaseAuth) {
-    var ref = new Firebase("https://tindergift.firebaseio.com/");
-    return $firebaseAuth(ref);
-}])
-.controller('myCtrl', ['$scope', '$facebook', 'Auth', '$firebase', function($scope, $facebook, Auth, $firebase) {
+.controller('myCtrl', ['$scope', '$facebook', '$firebase', function($scope, $facebook, $firebase) {
+
     $scope.$on('fb.auth.authResponseChange', function() {
         $scope.status = $facebook.isConnected();
         if($scope.status) {
             $facebook.api('/me').then(function(user) {
                 $scope.user = user;
-                $scope.auth = Auth;
-                $scope.authed = $scope.auth.$getAuth();
                 
-                var ref = new Firebase("https://tindergift.firebaseio.com");
-                var authData = ref.getAuth();
-                console.log("authData");
-                console.log(authData);
-                console.log( $scope.authed );
+                console.log( $scope.user );
             });
-        }
-    });
+        };
 
-    $scope.loginToggle = function() {
-        if($scope.status) {
-            $facebook.logout();
-        } else {
-            $facebook.login();
-        }
-    };
+    });
 
     $scope.getFriends = function() {
         if(!$scope.status) return;
@@ -53,22 +37,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase'])
     
     $scope.prueba = function() {
     
-        var ref = new Firebase("https://tindergift.firebaseio.com");
-        ref.authWithOAuthRedirect("facebook", function(error) {
-            if (error) {
-                console.log("Login Failed!", error);
-            }
-        });
-        var authData = ref.getAuth();
-        console.log("authData");
-        console.log(authData);
-    
     };
     
     $scope.chau = function() {
     
-        var ref = new Firebase("https://tindergift.firebaseio.com");
-        ref.unauth();
     
     };
     
