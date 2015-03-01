@@ -1,4 +1,7 @@
-    pre {
+.padtop {
+  padding-top: 20px;
+}
+pre {
     padding: 20px;
     font-size: 20px;
     border-radius: 15px;
