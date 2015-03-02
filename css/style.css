@@ -1,5 +1,8 @@
-.padtop {
+body {
   padding-top: 20px;
+  background-color: #e9eaed;
+  color: #141823;
+  font-size: 14px;
 }
 pre {
     padding: 20px;
@@ -13,4 +16,36 @@ pre {
 h3 {
     clear: both;
     padding-top: 20px;
+}
+.container.canvas {
+    width: 740px;
+}
+.divider-vertical {
+    height: 20px;
+    margin: 0 9px;
+    border-right: 1px solid #ffffff;
+    border-left: 1px solid #f2f2f2;
+}
+
+/* fb-nav */
+.fb-nav {
+    text-align: center;
+}
+.fb-nav a {
+    font-weight: bold;
+    font-size: 13px;
+}
+.fb-nav a:hover {
+    text-decoration: none;
+}
+.fb-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.fb-nav li {
+    display: inline;
+}
+.active {
+    color: #333;
 }

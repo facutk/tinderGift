@@ -21,33 +21,35 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
 .service('Cards', function(fbURL, $firebase){
     return $firebase(new Firebase(fbURL + 'card/')).$asArray();
 })
-.config(function($routeProvider) {
+.config(function($routeProvider) { 
     $routeProvider
-
-        .when('/', {
-            controller:'LandingCtrl',
-            templateUrl:'landing.html',
-        })
-
-        .when('/list', {
-            controller:'ListCtrl',
-            templateUrl:'list.html',
-        })
-
-        .when('/edit/:cardId', {
-              controller:'EditCtrl',
-              templateUrl:'detail.html'
-        })
-
-        .when('/new', {
-              controller:'CreateCtrl',
-              templateUrl:'detail.html'
-        })
-        .otherwise({
-            redirectTo:'/'
-        });
+    .when('/', {
+        controller:'LandingCtrl',
+        templateUrl:'landing.html',
+    })
+    .when('/list', {
+        controller:'ListCtrl',
+        templateUrl:'list.html',
+    })
+    .when('/edit/:cardId', {
+          controller:'EditCtrl',
+          templateUrl:'detail.html'
+    })
+    .when('/new', {
+          controller:'CreateCtrl',
+          templateUrl:'detail.html'
+    })
+    .otherwise({
+        redirectTo:'/'
+    });
 })
-
+.controller('NavCtrl', function($scope, $location) {
+    $scope.isActive = function(route) {
+        $scope.path = $location.path();
+        console.log( $scope.path );
+        return $location.path() === route;
+    };
+})
 .controller('LandingCtrl', function($scope) {
     
 })
