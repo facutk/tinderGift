@@ -21,6 +21,17 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
 .service('Cards', function(fbURL, $firebase){
     return $firebase(new Firebase(fbURL + 'card/')).$asArray();
 })
+.factory('MercadoLibre', function($http){
+    return {
+        getInfo: function( url ) {
+            ml_url = url;
+            if ( ml_url.indexOf('http') > -1 ) {
+                ml_url = url.substr(url.indexOf('://')+3);
+            };
+            return $http.jsonp( 'https://facutk.alwaysdata.net/mercadolibre/' + ml_url + '?callback=JSON_CALLBACK&_=' + (new Date().getTime()) );
+        }
+    };
+})
 .config(function($routeProvider) { 
     $routeProvider
     .when('/', {
@@ -46,7 +57,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
 .controller('NavCtrl', function($scope, $location) {
     $scope.isActive = function(route) {
         $scope.path = $location.path();
-        console.log( $scope.path );
         return $location.path() === route;
     };
 })
@@ -58,13 +68,27 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
     $scope.cards = Cards;
 })
  
-.controller('CreateCtrl', function($scope, $location, Cards) {
+.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', function($scope, $location, Cards, MercadoLibre) {
     $scope.save = function() {
         Cards.$add($scope.card).then(function(data) {
             $location.path('/');
         });
     };
-})
+    $scope.fetch = function(){
+        if ( $scope.card.link.indexOf("mercadolibre.com") > -1 ) {
+            MercadoLibre.getInfo( $scope.card.link )
+            .then( function( result ) {
+                var data = result.data;
+                if ( data.status == "ok") {
+                    $scope.card.thumbnail = data.thumbnail;
+                    $scope.card.name = data.name;
+                    $scope.card.price = data.price;
+                    $scope.card.images = data.images;
+                };
+            } );        
+        }
+    }
+}])
 
 .controller('EditCtrl', function($scope, $location, $routeParams, Cards) {
         var cardId = $routeParams.cardId, cardIndex;

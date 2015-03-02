@@ -24,17 +24,13 @@
           </div>
       </div>
      
-      <div class="clearfix" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
-          <label for="site">Website</label>
+      <div class="clearfix">
+          <label for="link">Link</label>
           <div class="input">
-              <input type="url" name="site" ng-model="card.site" required>
-              <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
-                  Required</span>
-              <span ng-show="myForm.site.$error.url" class="help-inline">
-                  Not a URL
-              </span>
+              <input name="link" ng-model="card.link">
           </div>
       </div>
+
       <div class="clearfix">
           <label for="description">Description</label>
           <div class="input">
@@ -51,7 +47,7 @@
     </fieldset>
 </form>
 
-
+      <button ng-click="fetch()">Buscar info</button>
 card
     thumbnail
     title
