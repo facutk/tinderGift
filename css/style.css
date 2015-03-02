@@ -1,24 +1,9 @@
 body {
   padding-top: 20px;
-  background-color: #e9eaed;
+  /*background-color: #e9eaed;*/
   color: #141823;
   font-size: 14px;
-}
-pre {
-    padding: 20px;
-    font-size: 20px;
-    border-radius: 15px;
-    background-color: #fafafa;
-    border: 1px solid #999;
-    float: left;
-    font-family:'Courier New', 'Courier', monospaced;
-}
-h3 {
-    clear: both;
-    padding-top: 20px;
-}
-.container.canvas {
-    width: 740px;
+  font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
 }
 .divider-vertical {
     height: 20px;
@@ -48,4 +33,14 @@ h3 {
 }
 .active {
     color: #333;
+}
+input, textarea, select, .uneditable-input {
+    width: 460px;
+    height: auto;
+    font-size: 14px;
+    border-radius: 2px;
+}
+label,
+.help-inline {
+    font-size: 12px;
 }

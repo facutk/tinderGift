@@ -6,7 +6,7 @@
   
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/fbootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/fbootstrap.css">
     <link rel="stylesheet" href="css/style.css">
 
     <script src='//code.jquery.com/jquery-2.0.2.js'></script> 
@@ -37,27 +37,25 @@
                                 <a href="#/" ng-class="{active: isActive('/')}">Elegí tus regalos
                             </a>
                         </li>
+
                         <li class="divider-vertical"></li>
+
+                        <li>
+                            <img src="img/friends.png"></img>
+                            <a href="#/friends" ng-class="{active: isActive('/friends')}">
+                                Mirá que quieren tus amigos de regalo
+                            </a>
+                        </li>
+                        
+                        <li class="divider-vertical"></li>
+                        
                         <li>
                             <img src="img/package.png"></img>
                             <a href="#/new" ng-class="{active: isActive('/new')}">
                                 Presentá un producto
                             </a>
                         </li>
-                        <li class="divider-vertical"></li>
-                        <li>
-                            <img src="img/friends.png"></img>
-                            <a href="#/friends" ng-class="{active: isActive('/friends')}">
-                                Mirá los gustos de tus amigos
-                            </a>
-                        </li>
-                        <li class="divider-vertical"></li>
-                        <li>
-                            <img src="img/settings.png"></img>
-                            <a href="#/config" ng-class="{active: isActive('/config')}">
-                                Configuracíon
-                            </a>
-                        </li>
+                    
                     </ul>
                 </div>
             </div>

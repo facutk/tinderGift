@@ -1,5 +1,57 @@
 <form name="myForm">
 
+    <fieldset>
+
+        <div class="clearfix" ng-class="{error: myForm.thumbnail.$invalid && !myForm.thumbnail.$pristine}">
+            <label for="thumbnail">Thumbnail</label>
+            <div class="input">
+                <input type="url" name="thumbnail" ng-model="card.thumbnail" required>
+                <span ng-show="myForm.thumbnail.$error.required && !myForm.thumbnail.$pristine" class="help-inline">
+                    Required
+                </span>
+                <span ng-show="myForm.thumbnail.$error.url" class="help-inline">
+                    Not a URL
+                </span>
+            </div>
+        </div>
+
+      <div class="clearfix" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+          <label for="name">Name</label>
+          <div class="input">
+              <input type="text" name="name" ng-model="card.name" required>
+              <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
+                  Required {{myForm.name.$pristine}}</span>
+          </div>
+      </div>
+     
+      <div class="clearfix" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
+          <label for="site">Website</label>
+          <div class="input">
+              <input type="url" name="site" ng-model="card.site" required>
+              <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
+                  Required</span>
+              <span ng-show="myForm.site.$error.url" class="help-inline">
+                  Not a URL
+              </span>
+          </div>
+      </div>
+      <div class="clearfix">
+          <label for="description">Description</label>
+          <div class="input">
+              <textarea name="description" ng-model="card.description" rows="5"></textarea>
+          </div>
+      </div>
+      <br>
+      <a href="#/" class="btn">Cancelar</a>
+      <button ng-click="save()" ng-disabled="myForm.$invalid"
+              class="btn btn-primary">Guardar</button>
+      <button ng-click="destroy()"
+              ng-show="card.$id" class="btn btn-danger">Borrar</button>
+
+    </fieldset>
+</form>
+
+
 card
     thumbnail
     title
@@ -12,42 +64,3 @@ card
     expires
     approved
     campaign
-
-    <div class="control-group" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
-        <label>Thumbnail</label>
-        <input type="url" name="thumbnail" ng-model="card.thumbnail" required>
-        <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
-            Required
-        </span>
-        <span ng-show="myForm.site.$error.url" class="help-inline">
-            Not a URL
-        </span>
-    </div>
-
-  <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
-    <label>Name</label>
-    <input type="text" name="name" ng-model="card.name" required>
-    <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
-        Required {{myForm.name.$pristine}}</span>
-  </div>
- 
-  <div class="control-group" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
-    <label>Website</label>
-    <input type="url" name="site" ng-model="card.site" required>
-    <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
-        Required</span>
-    <span ng-show="myForm.site.$error.url" class="help-inline">
-        Not a URL
-    </span>
-  </div>
- 
-  <label>Description</label>
-  <textarea name="description" ng-model="card.description"></textarea>
- 
-  <br>
-  <a href="#/" class="btn">Cancelar</a>
-  <button ng-click="save()" ng-disabled="myForm.$invalid"
-          class="btn btn-primary">Guardar</button>
-  <button ng-click="destroy()"
-          ng-show="card.$id" class="btn btn-danger">Borrar</button>
-</form>
