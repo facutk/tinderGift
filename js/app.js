@@ -50,6 +50,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
           controller:'CreateCtrl',
           templateUrl:'detail.html'
     })
+    .when('/friends', {
+          controller:'myCtrl',
+          templateUrl:'landing.html'
+    })
     .otherwise({
         redirectTo:'/'
     });
@@ -139,6 +143,9 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
                 $scope.user = user;
                 
                 console.log( $scope.user );
+
+                var ref = new Firebase("https://tindergift.firebaseio.com/");
+                console.log( ref.getAuth() );
             });
         };
 
