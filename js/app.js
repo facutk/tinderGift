@@ -1,4 +1,4 @@
-angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
+angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'])
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 .config(['$facebookProvider', function($facebookProvider) {
     $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
@@ -15,6 +15,9 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
         $window.dispatchEvent(new Event('fb.load'));
     });
 }])
+.run(function(editableOptions) {
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+})
 .service('fbRef', function(fbURL) {
   return new Firebase(fbURL)
 })

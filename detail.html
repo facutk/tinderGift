@@ -1,11 +1,15 @@
 <div class="panel panel-default">
-  <div class="panel-heading">
+    <div class="panel-heading">
 
-      <span>Producto</span>
+        <span>
+            <a href="#" editable-text="user.name">{{ user.name || "empty" }}</a>
+        </span>
        
   </div>
     <div class="panel-body">
-
+        <a href="https://vitalets.github.io/angular-xeditable/">
+            https://vitalets.github.io/angular-xeditable/
+        </a>
         <form name="myForm">
 
             <fieldset>
@@ -14,7 +18,7 @@
                     <label for="link">Link</label>
                     <div class="input">
                         <input name="link" ng-model="card.link" ng-change="checkML()">
-                        <button ng-click="fetch()" ng-show="isMercadoLibre" class="btn primary">
+                        <button ng-click="fetch()" ng-show="isMercadoLibre" class="fbtn primary">
                             Traer información
                         </button>
                     </div>
@@ -38,7 +42,7 @@
                     <label for="image">Imagenes</label>
                     <div class="input">
                         <input name="image" ng-model="card.image">
-                        <button ng-click="addImage()" class="btn primary" ng-disabled="!card.image">
+                        <button ng-click="addImage()" class="fbtn primary" ng-disabled="!card.image">
                             Agregar
                         </button>
                     </div>
@@ -105,12 +109,12 @@
 
                 <div class="clearfix">
                     <div class="input">
-                        <a href="#/" class="btn">Cancelar</a>
-                        <button ng-click="save()" class="btn primary" ng-disabled="card.$id">
+                        <a href="#/" class="fbtn">Cancelar</a>
+                        <button ng-click="save()" class="fbtn primary" ng-disabled="card.$id">
                             Guardar
                         </button>
                         <button ng-click="destroy()"
-                                ng-show="card.$id" class="btn btn-danger">Borrar</button>
+                                ng-show="card.$id" class="fbtn fbtn-danger">Borrar</button>
                     </div>
                 </div>
 

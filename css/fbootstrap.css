@@ -2114,31 +2114,31 @@ footer {
 .page-header h1 {
   margin-bottom: 6px;
 }
-.btn.success,
+.fbtn.success,
 .alert-message.success,
-.btn.success:hover,
+.fbtn.success:hover,
 .alert-message.success:hover,
-.btn.danger,
+.fbtn.danger,
 .alert-message.danger,
-.btn.danger:hover,
+.fbtn.danger:hover,
 .alert-message.danger:hover,
-.btn.error,
+.fbtn.error,
 .alert-message.error,
-.btn.error:hover,
+.fbtn.error:hover,
 .alert-message.error:hover,
-.btn.info,
+.fbtn.info,
 .alert-message.info,
-.btn.info:hover,
+.fbtn.info:hover,
 .alert-message.info:hover {
   color: #333333;
 }
-.btn .close, .alert-message .close {
+.fbtn .close, .alert-message .close {
   font-family: Arial, sans-serif;
   line-height: 14px;
 }
-.btn.danger,
+.fbtn.danger,
 .alert-message.danger,
-.btn.error,
+.fbtn.error,
 .alert-message.error {
   background-color: #ffebe8;
   background-repeat: repeat-x;
@@ -2153,7 +2153,7 @@ footer {
   border-color: #ffebe8 #ffebe8 #ffa89b;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-.btn.success, .alert-message.success {
+.fbtn.success, .alert-message.success {
   background-color: #eceff6;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#eceff6), to(#eceff6));
@@ -2168,7 +2168,7 @@ footer {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border-color: #d4dae8;
 }
-.btn.info, .alert-message.info {
+.fbtn.info, .alert-message.info {
   background-color: #fff9d7;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#fff9d7), to(#fff9d7));
@@ -2182,7 +2182,7 @@ footer {
   border-color: #fff9d7 #fff9d7 #ffee8b;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-.btn {
+.fbtn {
   cursor: pointer;
   display: inline-block;
   background-color: #e6e6e6;
@@ -2213,15 +2213,15 @@ footer {
   -o-transition: 0.1s linear all;
   transition: 0.1s linear all;
 }
-.btn:hover {
+.fbtn:hover {
   background-position: 0 -15px;
   color: #333;
   text-decoration: none;
 }
-.btn:focus {
+.fbtn:focus {
   outline: 1px dotted #666;
 }
-.btn.primary {
+.fbtn.primary {
   color: #ffffff;
   background-color: #3b5998;
   background-repeat: repeat-x;
@@ -2236,7 +2236,7 @@ footer {
   border-color: #3b5998 #3b5998 #263961;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-.btn.success {
+.fbtn.success {
   background-color: #69a74e;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#69a74e), to(#69a74e));
@@ -2251,7 +2251,7 @@ footer {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border-color: #3b6e22 #3b6e22 #2c5115;
 }
-.btn.danger, .btn.error {
+.fbtn.danger, .fbtn.error {
   background-color: #dd3c10;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#dd3c10), to(#dd3c10));
@@ -2266,18 +2266,18 @@ footer {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border-color: #c5360e #c5360e #7e2209;
 }
-.btn.success, .btn.danger, .btn.error {
+.fbtn.success, .fbtn.danger, .fbtn.error {
   color: #ffffff;
 }
-.btn.success:hover, .btn.danger:hover, .btn.error:hover {
+.fbtn.success:hover, .fbtn.danger:hover, .fbtn.error:hover {
   color: #ffffff;
 }
-.btn.active, .btn:active {
+.fbtn.active, .fbtn:active {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-.btn.disabled {
+.fbtn.disabled {
   cursor: default;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   filter: alpha(opacity=65);
@@ -2285,7 +2285,7 @@ footer {
   -moz-opacity: 0.65;
   opacity: 0.65;
 }
-.btn[disabled] {
+.fbtn[disabled] {
   cursor: default;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   filter: alpha(opacity=65);
@@ -2293,7 +2293,7 @@ footer {
   -moz-opacity: 0.65;
   opacity: 0.65;
 }
-.btn.large {
+.fbtn.large {
   font-size: 13px;
   line-height: normal;
   padding: 9px 14px 9px;
@@ -2301,14 +2301,14 @@ footer {
   -moz-border-radius: 0px;
   border-radius: 0px;
 }
-.btn.small {
+.fbtn.small {
   padding: 4px 7px 5px 7px;
   font-size: 9px;
 }
-:root .alert-message, :root .btn {
+:root .alert-message, :root .fbtn {
   border-radius: 0 \0;
 }
-button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
+button.fbtn::-moz-focus-inner, input[type=submit].fbtn::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
@@ -2385,7 +2385,7 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   margin-bottom: 2px;
   line-height: 28px;
 }
-.alert-message .btn {
+.alert-message .fbtn {
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
@@ -2578,7 +2578,7 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 .modal-footer:after {
   clear: both;
 }
-.modal-footer .btn {
+.modal-footer .fbtn {
   float: right;
   margin-left: 5px;
 }
