@@ -1,62 +1,121 @@
-<form name="myForm">
+<div class="panel panel-default">
+  <div class="panel-heading">
 
-    <fieldset>
+      <span>Producto</span>
+       
+  </div>
+    <div class="panel-body">
 
-        <div class="clearfix" ng-class="{error: myForm.thumbnail.$invalid && !myForm.thumbnail.$pristine}">
-            <label for="thumbnail">Thumbnail</label>
-            <div class="input">
-                <input type="url" name="thumbnail" ng-model="card.thumbnail" required>
-                <span ng-show="myForm.thumbnail.$error.required && !myForm.thumbnail.$pristine" class="help-inline">
-                    Required
-                </span>
-                <span ng-show="myForm.thumbnail.$error.url" class="help-inline">
-                    Not a URL
-                </span>
-            </div>
-        </div>
+        <form name="myForm">
 
-      <div class="clearfix" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
-          <label for="name">Name</label>
-          <div class="input">
-              <input type="text" name="name" ng-model="card.name" required>
-              <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
-                  Required {{myForm.name.$pristine}}</span>
-          </div>
-      </div>
-     
-      <div class="clearfix">
-          <label for="link">Link</label>
-          <div class="input">
-              <input name="link" ng-model="card.link">
-          </div>
-      </div>
+            <fieldset>
 
-      <div class="clearfix">
-          <label for="description">Description</label>
-          <div class="input">
-              <textarea name="description" ng-model="card.description" rows="5"></textarea>
-          </div>
-      </div>
-      <br>
-      <a href="#/" class="btn">Cancelar</a>
-      <button ng-click="save()" ng-disabled="myForm.$invalid"
-              class="btn btn-primary">Guardar</button>
-      <button ng-click="destroy()"
-              ng-show="card.$id" class="btn btn-danger">Borrar</button>
+                <div class="clearfix">
+                    <label for="link">Link</label>
+                    <div class="input">
+                        <input name="link" ng-model="card.link" ng-change="checkML()">
+                        <button ng-click="fetch()" ng-show="isMercadoLibre" class="btn primary">
+                            Traer información
+                        </button>
+                    </div>
+                </div>
 
-    </fieldset>
-</form>
+                <div class="clearfix">
+                    <label for="thumbnail">Thumbnail</label>
+                    <div class="input">
+                        <input name="thumbnail" ng-model="card.thumbnail">
+                    </div>
+                </div>
 
-      <button ng-click="fetch()">Buscar info</button>
-card
-    thumbnail
-    title
-    price
-    description
-    photos
-        url
-    link
-    last_modified
-    expires
-    approved
-    campaign
+                <div class="clearfix">
+                    <label for="name">Nombre</label>
+                    <div class="input">
+                        <input type="text" name="name" ng-model="card.name">
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="image">Imagenes</label>
+                    <div class="input">
+                        <input name="image" ng-model="card.image">
+                        <button ng-click="addImage()" class="btn primary" ng-disabled="!card.image">
+                            Agregar
+                        </button>
+                    </div>
+                    <div class="input">
+                        <ul>
+                            <li ng-repeat="image in card.images">
+                                <a ng-click="removeImage(image)">
+                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                </a>
+                                <span>{{ image }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="description">Descripción</label>
+                    <div class="input">
+                        <textarea name="description" ng-model="card.description" rows="5"></textarea>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="price">Precio</label>
+                    <div class="input">
+                        <input type="text" name="price" ng-model="card.price">
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="last_modified">Última modificación</label>
+                    <div class="input">
+                        <input type="date" name="last_modified" ng-model="card.last_modified" disabled>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="expires">Expira</label>
+                    <div class="input">
+                        <input type="date" name="expires" ng-model="card.expires" disabled>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="approved">Aprobado</label>
+                    <div class="input">
+                        <input type="checkbox" name="approved" ng-model="card.approved" disabled>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="campaign">Campaña</label>
+                    <div class="input">
+                        <input type="text" name="campaign" ng-model="card.campaign">
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <label for="creator">Creador</label>
+                    <div class="input">
+                        <input type="text" name="creator" ng-model="card.creator" disabled>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <div class="input">
+                        <a href="#/" class="btn">Cancelar</a>
+                        <button ng-click="save()" class="btn primary" ng-disabled="card.$id">
+                            Guardar
+                        </button>
+                        <button ng-click="destroy()"
+                                ng-show="card.$id" class="btn btn-danger">Borrar</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>

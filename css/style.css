@@ -41,6 +41,7 @@ input, textarea, select, .uneditable-input {
     border-radius: 2px;
 }
 label,
-.help-inline {
+.help-inline,
+.btn {
     font-size: 12px;
 }

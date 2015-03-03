@@ -69,10 +69,30 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute'])
 })
  
 .controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', function($scope, $location, Cards, MercadoLibre) {
+    $scope.card = {};
+    $scope.card.images = [];
+    $scope.card.approved = true;
+
+    $scope.card.last_modified = new Date();
+
+    var now = new Date();
+    $scope.card.expires = new Date( now.setDate(now.getDate() + 5) );
+
     $scope.save = function() {
         Cards.$add($scope.card).then(function(data) {
             $location.path('/');
         });
+    };
+    $scope.addImage = function() {
+        $scope.card.images.push( $scope.card.image );
+        $scope.card.image = '';
+    };
+    $scope.removeImage = function(image) {
+        var index = $scope.card.images.indexOf(image)
+        $scope.card.images.splice( index, 1);  
+    };
+    $scope.checkML = function() {
+        $scope.isMercadoLibre = ( $scope.card.link.indexOf("mercadolibre.com") > -1 );
     };
     $scope.fetch = function(){
         if ( $scope.card.link.indexOf("mercadolibre.com") > -1 ) {
