@@ -45,3 +45,31 @@ label,
 .btn {
     font-size: 12px;
 }
+p {
+    font-size: 14px;
+}
+.panel-fb {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.panel-default > .panel-heading {
+    background-color: white;
+    border-color: white;
+}
+.panel-heading-grid-image {
+    width: 40px;
+    float: left;
+}
+.panel-heading-grid-title {
+    padding-left: 10px;
+    float: left;
+}
+.panel-heading-grid-arrow {
+    width: 40px;
+    float: right;
+}
+.panel-image {
+    width: 40px;
+    height: 40px;
+    background-color: #e9eaed;
+}

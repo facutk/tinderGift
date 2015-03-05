@@ -1,125 +1,152 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-
-        <span>
-            <a href="#" editable-text="user.name">{{ user.name || "empty" }}</a>
-        </span>
-       
-  </div>
-    <div class="panel-body">
-        <a href="https://vitalets.github.io/angular-xeditable/">
-            https://vitalets.github.io/angular-xeditable/
-        </a>
-        <form name="myForm">
-
-            <fieldset>
-
-                <div class="clearfix">
-                    <label for="link">Link</label>
-                    <div class="input">
-                        <input name="link" ng-model="card.link" ng-change="checkML()">
-                        <button ng-click="fetch()" ng-show="isMercadoLibre" class="fbtn primary">
-                            Traer información
-                        </button>
-                    </div>
+<div class="panel-fb">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="container row">
+                <div class="panel-heading-grid-image">
+                    <img class="panel-image img-responsive img-rounded" src="https://s3.amazonaws.com/jetstrap-site/images/website/index/what_icon.png">
                 </div>
-
-                <div class="clearfix">
-                    <label for="thumbnail">Thumbnail</label>
-                    <div class="input">
-                        <input name="thumbnail" ng-model="card.thumbnail">
-                    </div>
+                <div class="panel-heading-grid-title">
+                    <p>
+                        <a href="#" editable-text="user.name">{{ user.name || "empty" }}</a>
+                    </p>
+                    <p>
+                        <a href="#" editable-text="user.lastname">{{ user.lastname || "empty" }}</a>
+                    </p>
                 </div>
-
-                <div class="clearfix">
-                    <label for="name">Nombre</label>
-                    <div class="input">
-                        <input type="text" name="name" ng-model="card.name">
-                    </div>
+                <div class="panel-heading-grid-arrow">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </div>
+            </div>
+      </div>
+        <div class="panel-body">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <span class="badge">14</span>
+                  Cras justo odio
+                </li>
+                <li class="list-group-item">
+                  <span class="badge">2</span>
+                  Dapibus ac facilisis in
+                </li>
+                <li class="list-group-item">
+                  <span class="badge">0</span>
+                  Morbi leo risus
+                </li>
+              </ul>
+            <a href="https://vitalets.github.io/angular-xeditable/">
+                https://vitalets.github.io/angular-xeditable/
+            </a>
+            <form name="myForm">
 
-                <div class="clearfix">
-                    <label for="image">Imagenes</label>
-                    <div class="input">
-                        <input name="image" ng-model="card.image">
-                        <button ng-click="addImage()" class="fbtn primary" ng-disabled="!card.image">
-                            Agregar
-                        </button>
+                <fieldset>
+
+                    <div class="clearfix">
+                        <label for="link">Link</label>
+                        <div class="input">
+                            <input name="link" ng-model="card.link" ng-change="checkML()">
+                            <button ng-click="fetch()" ng-show="isMercadoLibre" class="fbtn primary">
+                                Traer información
+                            </button>
+                        </div>
                     </div>
-                    <div class="input">
-                        <ul>
-                            <li ng-repeat="image in card.images">
-                                <a ng-click="removeImage(image)">
-                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-                                </a>
-                                <span>{{ image }}</span>
-                            </li>
-                        </ul>
+
+                    <div class="clearfix">
+                        <label for="thumbnail">Thumbnail</label>
+                        <div class="input">
+                            <input name="thumbnail" ng-model="card.thumbnail">
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="description">Descripción</label>
-                    <div class="input">
-                        <textarea name="description" ng-model="card.description" rows="5"></textarea>
+                    <div class="clearfix">
+                        <label for="name">Nombre</label>
+                        <div class="input">
+                            <input type="text" name="name" ng-model="card.name">
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="price">Precio</label>
-                    <div class="input">
-                        <input type="text" name="price" ng-model="card.price">
+                    <div class="clearfix">
+                        <label for="image">Imagenes</label>
+                        <div class="input">
+                            <input name="image" ng-model="card.image">
+                            <button ng-click="addImage()" class="fbtn primary" ng-disabled="!card.image">
+                                Agregar
+                            </button>
+                        </div>
+                        <div class="input">
+                            <ul>
+                                <li ng-repeat="image in card.images">
+                                    <a ng-click="removeImage(image)">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                    </a>
+                                    <span>{{ image }}</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="last_modified">Última modificación</label>
-                    <div class="input">
-                        <input type="date" name="last_modified" ng-model="card.last_modified" disabled>
+                    <div class="clearfix">
+                        <label for="description">Descripción</label>
+                        <div class="input">
+                            <textarea name="description" ng-model="card.description" rows="5"></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="expires">Expira</label>
-                    <div class="input">
-                        <input type="date" name="expires" ng-model="card.expires" disabled>
+                    <div class="clearfix">
+                        <label for="price">Precio</label>
+                        <div class="input">
+                            <input type="text" name="price" ng-model="card.price">
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="approved">Aprobado</label>
-                    <div class="input">
-                        <input type="checkbox" name="approved" ng-model="card.approved" disabled>
+                    <div class="clearfix">
+                        <label for="last_modified">Última modificación</label>
+                        <div class="input">
+                            <input type="date" name="last_modified" ng-model="card.last_modified" disabled>
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="campaign">Campaña</label>
-                    <div class="input">
-                        <input type="text" name="campaign" ng-model="card.campaign">
+                    <div class="clearfix">
+                        <label for="expires">Expira</label>
+                        <div class="input">
+                            <input type="date" name="expires" ng-model="card.expires" disabled>
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <label for="creator">Creador</label>
-                    <div class="input">
-                        <input type="text" name="creator" ng-model="card.creator" disabled>
+                    <div class="clearfix">
+                        <label for="approved">Aprobado</label>
+                        <div class="input">
+                            <input type="checkbox" name="approved" ng-model="card.approved" disabled>
+                        </div>
                     </div>
-                </div>
 
-                <div class="clearfix">
-                    <div class="input">
-                        <a href="#/" class="fbtn">Cancelar</a>
-                        <button ng-click="save()" class="fbtn primary" ng-disabled="card.$id">
-                            Guardar
-                        </button>
-                        <button ng-click="destroy()"
-                                ng-show="card.$id" class="fbtn fbtn-danger">Borrar</button>
+                    <div class="clearfix">
+                        <label for="campaign">Campaña</label>
+                        <div class="input">
+                            <input type="text" name="campaign" ng-model="card.campaign">
+                        </div>
                     </div>
-                </div>
 
-            </fieldset>
-        </form>
+                    <div class="clearfix">
+                        <label for="creator">Creador</label>
+                        <div class="input">
+                            <input type="text" name="creator" ng-model="card.creator" disabled>
+                        </div>
+                    </div>
 
+                    <div class="clearfix">
+                        <div class="input">
+                            <a href="#/" class="fbtn">Cancelar</a>
+                            <button ng-click="save()" class="fbtn primary" ng-disabled="card.$id">
+                                Guardar
+                            </button>
+                            <button ng-click="destroy()"
+                                    ng-show="card.$id" class="fbtn fbtn-danger">Borrar</button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
     </div>
 </div>
