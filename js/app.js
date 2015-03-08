@@ -1,4 +1,4 @@
-angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'])
+angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap'])
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 .config(['$facebookProvider', function($facebookProvider) {
     $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
@@ -90,16 +90,31 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             $location.path('/');
         });
     };
+
+    $scope.card.images.push('https://pbs.twimg.com/media/B-ts7F_XAAESvCW.jpg');
+    $scope.card.images.push('https://i.imgur.com/xsND2e2.jpg');
+
     $scope.addImage = function() {
-        $scope.card.images.push( $scope.card.image );
-        $scope.card.image = '';
+        $scope.card.images.push( $scope.newImage );
+        $scope.newImage = '';
     };
     $scope.removeImage = function(image) {
         var index = $scope.card.images.indexOf(image)
         $scope.card.images.splice( index, 1);  
     };
     $scope.checkML = function() {
-        $scope.isMercadoLibre = ( $scope.card.link.indexOf("mercadolibre.com") > -1 );
+        if ( $scope.card.link.indexOf("mercadolibre.com") > -1 ) {
+            MercadoLibre.getInfo( $scope.card.link )
+            .then( function( result ) {
+                var data = result.data;
+                if ( data.status == "ok") {
+                    $scope.card.thumbnail = data.thumbnail;
+                    $scope.card.name = data.name;
+                    $scope.card.price = data.price;
+                    $scope.card.images = data.images;
+                };
+            } );        
+        }
     };
     $scope.fetch = function(){
         if ( $scope.card.link.indexOf("mercadolibre.com") > -1 ) {
@@ -115,6 +130,20 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             } );        
         }
     }
+
+
+
+
+  var slides = $scope.slides = [];
+  $scope.addSlide = function() {
+    var newWidth = 600 + slides.length + 1;
+    slides.push('http://placekitten.com/' + newWidth + '/300');
+  };
+  for (var i=0; i<4; i++) {
+    $scope.addSlide();
+  }
+
+
 }])
 
 .controller('EditCtrl', function($scope, $location, $routeParams, Cards) {
