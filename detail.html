@@ -1,38 +1,50 @@
-<div class="panel-fb">
+<div class="middle-center">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="container row">
+            <div class="row">
                 <div class="panel-heading-grid-image">
-                    <img class="panel-image img-responsive img-rounded" src="https://s3.amazonaws.com/jetstrap-site/images/website/index/what_icon.png">
+                    <img class="panel-image img-responsive img-rounded" src="img/gift-big.png">
                 </div>
                 <div class="panel-heading-grid-title">
                     <p>
-                        <a href="#" editable-text="user.name">{{ user.name || "empty" }}</a>
+                        <a href="#" editable-text="user.name">{{ user.name || "Sin títuto" }}</a>
                     </p>
                     <p>
-                        <a href="#" editable-text="user.lastname">{{ user.lastname || "empty" }}</a>
+                        <a href="#" editable-text="user.lastname">{{ user.lastname || "Sin link" }}</a>
                     </p>
                 </div>
                 <div class="panel-heading-grid-arrow">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </div>
             </div>
-      </div>
+        </div>
         <div class="panel-body">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <span class="badge">14</span>
-                  Cras justo odio
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">2</span>
-                  Dapibus ac facilisis in
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">0</span>
-                  Morbi leo risus
-                </li>
-              </ul>
+            <div class="product-description margin-bottom">
+                <a href="#" editable-textarea="user.desc" e-rows="5" e-cols="40">
+                    <pre>{{ user.desc || 'Sin descripción' }}</pre>
+                </a>
+            </div>
+            <div class="product-image margin-bottom">
+                <img class="img-rounded img-responsive img-place"
+                     src="http://placehold.it/470x350&text=tinderGift">
+            </div>
+
+            <div class="margin-bottom product-image-list">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        Cras justo odio
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">2</span>
+                        Dapibus ac facilisis in
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0</span>
+                        Morbi leo risus
+                    </li>
+                </ul>
+            </div>
             <a href="https://vitalets.github.io/angular-xeditable/">
                 https://vitalets.github.io/angular-xeditable/
             </a>

@@ -4,6 +4,7 @@ body {
   color: #141823;
   font-size: 14px;
   font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+  overflow: scroll;
 }
 .divider-vertical {
     height: 20px;
@@ -48,9 +49,10 @@ label,
 p {
     font-size: 14px;
 }
-.panel-fb {
-    padding-left: 30px;
-    padding-right: 30px;
+.middle-center {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .panel-default > .panel-heading {
     background-color: white;
@@ -65,11 +67,24 @@ p {
     float: left;
 }
 .panel-heading-grid-arrow {
-    width: 40px;
+    width: 20px;
     float: right;
 }
 .panel-image {
     width: 40px;
     height: 40px;
-    background-color: #e9eaed;
+}
+.container.canvas .row {
+  zoom: 1;
+  margin-left: -5px;
+}
+.image-place {
+    width: 475px;
+    height: 356px;
+}
+.margin-bottom {
+    margin-bottom: 14px;
+}
+.product-image-list {
+  margin-left: -25px;
 }
