@@ -75,24 +75,37 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.cards = Cards;
 })
  
-.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', function($scope, $location, Cards, MercadoLibre) {
+.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook',
+ function($scope, $location, Cards, MercadoLibre, $facebook) {
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+        $scope.status = $facebook.isConnected();
+        if($scope.status) {
+            $facebook.api('/me').then(function(user) {
+                $scope.user = user;
+                
+                console.log( $scope.user );
+
+                var ref = new Firebase("https://tindergift.firebaseio.com/");
+                console.log( ref.getAuth() );
+            });
+        };
+    });
+    
     $scope.card = {};
+    $scope.card.link = "";
     $scope.card.images = [];
+    $scope.card.expires = false;
     $scope.card.approved = true;
+    $scope.card.creator = "Facu Tkaczyszyn";
 
     $scope.card.last_modified = new Date();
-
-    var now = new Date();
-    $scope.card.expires = new Date( now.setDate(now.getDate() + 5) );
 
     $scope.save = function() {
         Cards.$add($scope.card).then(function(data) {
             $location.path('/');
         });
     };
-
-    $scope.card.images.push('https://pbs.twimg.com/media/B-ts7F_XAAESvCW.jpg');
-    $scope.card.images.push('https://i.imgur.com/xsND2e2.jpg');
 
     $scope.addImage = function() {
         $scope.card.images.push( $scope.newImage );
@@ -102,19 +115,8 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         var index = $scope.card.images.indexOf(image)
         $scope.card.images.splice( index, 1);  
     };
-    $scope.checkML = function() {
-        if ( $scope.card.link.indexOf("mercadolibre.com") > -1 ) {
-            MercadoLibre.getInfo( $scope.card.link )
-            .then( function( result ) {
-                var data = result.data;
-                if ( data.status == "ok") {
-                    $scope.card.thumbnail = data.thumbnail;
-                    $scope.card.name = data.name;
-                    $scope.card.price = data.price;
-                    $scope.card.images = data.images;
-                };
-            } );        
-        }
+    $scope.isML = function() {
+        return ( $scope.card.link.indexOf("mercadolibre.com") > -1 );
     };
     $scope.fetch = function(){
         if ( $scope.card.link.indexOf("mercadolibre.com") > -1 ) {
@@ -130,19 +132,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             } );        
         }
     }
-
-
-
-
-  var slides = $scope.slides = [];
-  $scope.addSlide = function() {
-    var newWidth = 600 + slides.length + 1;
-    slides.push('http://placekitten.com/' + newWidth + '/300');
-  };
-  for (var i=0; i<4; i++) {
-    $scope.addSlide();
-  }
-
 
 }])
 
@@ -180,7 +169,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
                 console.log( ref.getAuth() );
             });
         };
-
     });
 
     $scope.getFriends = function() {

@@ -10,15 +10,37 @@
                         <a href="#" editable-text="card.name">{{ card.name || "Sin títuto" }}</a>
                     </p>
                     <p>
-                        <a href="#" editable-text="card.link">{{ card.link || "Sin link" }}</a>
+                        <div class="card-creator">
+                            <span>{{ card.creator }} @ {{ card.last_modified | date:'medium' }}</span>
+                        </div>
                     </p>
                 </div>
                 <div class="panel-heading-grid-arrow">
-                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    <div class="btn-group">
+                        <button type="button" 
+                                class="btn btn-link dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-expanded="false">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#/">Cancelar</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel-body">
+            <div class="product-link margin-bottom">
+                <a href="#" editable-text="card.link">
+                    {{ card.link || "Sin link" }}
+                </a>
+                <button class="btn btn-link" 
+                        ng-click="fetch()" 
+                        ng-show="isML()">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                </button>
+            </div>
             <div class="product-description margin-bottom">
                 <a href="#" editable-textarea="card.description" e-rows="5" e-cols="40">
                     <pre>{{ card.description || 'Sin descripción' }}</pre>
@@ -27,7 +49,7 @@
             <div class="product-image margin-bottom">
 
                 <img class="img-rounded img-responsive img-place"
-                     src="http://placehold.it/470x350&text=tinderGift"
+                     src="img/placeholder.gif"
                      ng-hide="!!card.images.length">
 
                 <div ng-show="!!card.images.length">
@@ -45,94 +67,53 @@
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="image in card.images">
                         <a href="#" editable-text="image">{{ image || "Sin títuto" }}</a>
-                        <a class="product-image-right" ng-click="removeImage(image)">
+                        <button class="btn btn-link product-image-right" 
+                                ng-click="removeImage(image)">
+
                             <i class="glyphicon glyphicon-remove-sign" aria-hidden="true"></i>
-                        </a>
+
+                        </button>
                     </li>
 
                     <li class="list-group-item">
                         <a href="#" editable-text="newImage">
                             {{ newImage || "Nueva imagen" }}
                         </a>
-                        <a class="product-image-right" ng-click="addImage()">
+                        <button class="btn btn-link product-image-right" 
+                                ng-click="addImage()" 
+                                ng-show="newImage">
                             <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
-                        </a>
+                        </button>
+
+
                     </li>
                 </ul>
 
             </div>
-            <a href="https://vitalets.github.io/angular-xeditable/">
-                https://vitalets.github.io/angular-xeditable/
-            </a>
-            <form name="myForm">
 
-                <fieldset>
+            <div class="card-price margin-bottom">
+                <a href="#" editable-text="card.price">
+                    {{ card.price || "Sin precio" }}
+                </a>
+            </div>
+
+            <div class="card-expires margin-bottom">
+                <a href="#" editable-checkbox="card.expires" e-title="Expira?">
+                    {{ card.expires && "Expira" || "No expira" }}
+                </a>
+            </div>
+
+        </div>
+
+        <div class="panel-footer">
+            <a href="#/" class="fbtn">Cancelar</a>
+            <button ng-click="save()" class="fbtn primary" ng-disabled="card.$id">
+                Guardar
+            </button>
+            <button ng-click="destroy()" ng-show="card.$id" class="fbtn fbtn-danger">Borrar</button>
 
 
 
-                    <div class="clearfix">
-                        <label for="thumbnail">Thumbnail</label>
-                        <div class="input">
-                            <input name="thumbnail" ng-model="card.thumbnail">
-                        </div>
-                    </div>
-
-
-                    <div class="clearfix">
-                        <label for="price">Precio</label>
-                        <div class="input">
-                            <input type="text" name="price" ng-model="card.price">
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <label for="last_modified">Última modificación</label>
-                        <div class="input">
-                            <input type="date" name="last_modified" ng-model="card.last_modified" disabled>
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <label for="expires">Expira</label>
-                        <div class="input">
-                            <input type="date" name="expires" ng-model="card.expires" disabled>
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <label for="approved">Aprobado</label>
-                        <div class="input">
-                            <input type="checkbox" name="approved" ng-model="card.approved" disabled>
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <label for="campaign">Campaña</label>
-                        <div class="input">
-                            <input type="text" name="campaign" ng-model="card.campaign">
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <label for="creator">Creador</label>
-                        <div class="input">
-                            <input type="text" name="creator" ng-model="card.creator" disabled>
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <div class="input">
-                            <a href="#/" class="fbtn">Cancelar</a>
-                            <button ng-click="save()" class="fbtn primary" ng-disabled="card.$id">
-                                Guardar
-                            </button>
-                            <button ng-click="destroy()"
-                                    ng-show="card.$id" class="fbtn fbtn-danger">Borrar</button>
-                        </div>
-                    </div>
-
-                </fieldset>
-            </form>
 
         </div>
     </div>

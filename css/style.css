@@ -69,6 +69,7 @@ p {
 .panel-heading-grid-arrow {
     width: 20px;
     float: right;
+    margin-right: 15px
 }
 .panel-image {
     width: 40px;
@@ -90,4 +91,15 @@ p {
 }
 .product-image-right {
     float: right;
+    margin-right: -15px;
+    position: relative;
+    top: 50%;
+    font-size: 18px;
+}
+.card-creator {
+    color: grey;
+    font-style: italic;
+}
+.list-group-item {
+    line-height: 30px;
 }

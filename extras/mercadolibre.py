@@ -29,9 +29,11 @@ def get_ml_data( ml_url ):
             return ret
         else:
             pricetag = pricetag.strong
-            price_number = pricetag.contents[0].strip()
+            price_number = pricetag.contents[0].strip().replace(".","")
             price_decimal = pricetag.sup.contents[0]
             price = price_number + '.' + price_decimal
+            if price.find(" ") > -1:
+                price = price.split(" ")[1]
 
         images = []
         imgs = soup.find('figure', {'id': 'gallery_dflt'}).findAll('img')
@@ -41,15 +43,7 @@ def get_ml_data( ml_url ):
                 images.append( img_src )
         images = list( set( images ) )
 
-        if images:
-            thumbnail = images[0]
-
-        if not thumbnail:
-            ret["description"] = "no image found"
-            return ret
-
         ret['status'] = "ok"
-        ret['thumbnail'] = thumbnail
         ret['name'] = name
         ret['price'] = price
         ret['images'] = images
