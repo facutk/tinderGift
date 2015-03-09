@@ -200,9 +200,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('Example', ['$scope', '$facebook', '$firebase', function($scope, $facebook, $firebase) {
+.controller('Example', ['$scope', '$rootScope', '$facebook', '$firebase', 
+ function($scope, $rootScope, $facebook, $firebase) {
 
-    $scope.$on('fb.auth.authResponseChange', function() {
+    $rootScope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
         $facebook.api('/me').then(function(user) {
