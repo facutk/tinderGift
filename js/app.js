@@ -79,16 +79,25 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.cards = Cards;
 })
  
-.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook',
- function($scope, $location, Cards, MercadoLibre, $facebook) {
+.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook', '$rootScope',
+ function($scope, $location, Cards, MercadoLibre, $facebook, $rootScope) {
+
+    $rootScope.$on('fb.auth.authResponseChange', function() {
+      $scope.status = $facebook.isConnected();
+      if($scope.status) {
+        $facebook.api('/me').then(function(user) {
+          $scope.user = user;
+        });
+      }
+    });
 
     $scope.isLoggedIn = false;
     $scope.login = function() {
         $facebook.login().then(function() {
-            refresh();
+            $scope.refresh();
         });
     }
-    function refresh() {
+    $scope.refresh = function () {
         $facebook.api("/me").then( 
             function(response) {
                 $scope.welcomeMsg = "Welcome " + response.name;
@@ -99,7 +108,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         });
     }
   
-    refresh();
+    $scope.refresh();
 
     $scope.card = {};
     $scope.card.link = "";
