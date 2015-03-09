@@ -57,6 +57,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
           controller:'myCtrl',
           templateUrl:'landing.html'
     })
+    .when('/example', {
+          controller:'Example',
+          templateUrl:'example.html'
+    })
     .otherwise({
         redirectTo:'/'
     });
@@ -78,20 +82,25 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 .controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook',
  function($scope, $location, Cards, MercadoLibre, $facebook) {
 
-    $scope.$on('fb.auth.authResponseChange', function() {
-        $scope.status = $facebook.isConnected();
-        if($scope.status) {
-            $facebook.api('/me').then(function(user) {
-                $scope.user = user;
-                
-                console.log( $scope.user );
+    $scope.isLoggedIn = false;
+    $scope.login = function() {
+        $facebook.login().then(function() {
+            refresh();
+        });
+    }
+    function refresh() {
+        $facebook.api("/me").then( 
+            function(response) {
+                $scope.welcomeMsg = "Welcome " + response.name;
+                $scope.isLoggedIn = true;
+            },
+            function(err) {
+                $scope.welcomeMsg = "Please log in";
+        });
+    }
+  
+    refresh();
 
-                var ref = new Firebase("https://tindergift.firebaseio.com/");
-                console.log( ref.getAuth() );
-            });
-        };
-    });
-    
     $scope.card = {};
     $scope.card.link = "";
     $scope.card.images = [];
@@ -190,4 +199,34 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     
 
 }])
+
+.controller('Example', ['$scope', '$facebook', '$firebase', function($scope, $facebook, $firebase) {
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+      $scope.status = $facebook.isConnected();
+      if($scope.status) {
+        $facebook.api('/me').then(function(user) {
+          $scope.user = user;
+        });
+      }
+    });
+
+    $scope.loginToggle = function() {
+      if($scope.status) {
+        $facebook.logout();
+      } else {
+        $facebook.login();
+      }
+    };
+
+    $scope.getFriends = function() {
+      if(!$scope.status) return;
+      $facebook.cachedApi('/me/friends').then(function(friends) {
+        $scope.friends = friends.data;
+      });
+    }
+
+}])
+
+
 ;
