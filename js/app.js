@@ -79,10 +79,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.cards = Cards;
 })
  
-.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook', '$rootScope',
- function($scope, $location, Cards, MercadoLibre, $facebook, $rootScope) {
+.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook',
+ function($scope, $location, Cards, MercadoLibre, $facebook) {
 
-    $rootScope.$on('fb.auth.authResponseChange', function() {
+    $scope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
         $facebook.api('/me').then(function(user) {
@@ -152,7 +152,8 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     }
 
 }])
-
+.controller('fbCtrl', ['$scope', '$facebook', function($scope, $facebook) {
+}])
 .controller('EditCtrl', function($scope, $location, $routeParams, Cards) {
         var cardId = $routeParams.cardId, cardIndex;
      
@@ -209,10 +210,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('Example', ['$scope', '$rootScope', '$facebook', '$firebase', 
- function($scope, $rootScope, $facebook, $firebase) {
+.controller('Example', ['$scope', '$facebook', '$firebase', 
+ function($scope, $facebook, $firebase) {
 
-    $rootScope.$on('fb.auth.authResponseChange', function() {
+    $scope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
         $facebook.api('/me').then(function(user) {

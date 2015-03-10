@@ -22,7 +22,11 @@ angular.module('myApp', ['ngFacebook'])
       $window.dispatchEvent(new Event('fb.load'));
     });
   }])
-  .controller('myCtrl', ['$scope', '$facebook', function($scope, $facebook) {
+
+.controller('fbCtrl', ['$scope', '$facebook', function($scope, $facebook) {
+}])
+
+.controller('myCtrl', ['$scope', '$facebook', function($scope, $facebook) {
     $scope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
@@ -46,5 +50,5 @@ angular.module('myApp', ['ngFacebook'])
         $scope.friends = friends.data;
       });
     }
-  }])
+}])
 ;
