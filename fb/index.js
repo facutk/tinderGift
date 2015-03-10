@@ -8,7 +8,8 @@
 
 angular.module('myApp', ['ngFacebook'])
   .config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
   }])
   .run(['$rootScope', '$window', function($rootScope, $window) {
     (function(d, s, id) {

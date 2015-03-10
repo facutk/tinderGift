@@ -1,7 +1,8 @@
 angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap'])
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 .config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
 }])
 .run(['$rootScope', '$window', function($rootScope, $window) {
     (function(d, s, id) {
@@ -38,6 +39,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 .config(function($routeProvider) { 
     $routeProvider
     .when('/', {
+        controller:'LoginCtrl',
+        templateUrl:'login.html',
+    })
+    .when('/landing', {
         controller:'LandingCtrl',
         templateUrl:'landing.html',
     })
@@ -81,7 +86,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
  
 .controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook',
  function($scope, $location, Cards, MercadoLibre, $facebook) {
-
+/*
     $scope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
@@ -90,7 +95,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         });
       }
     });
-
+*/
     $scope.isLoggedIn = false;
     $scope.login = function() {
         $facebook.login().then(function() {
@@ -151,8 +156,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         }
     }
 
-}])
-.controller('fbCtrl', ['$scope', '$facebook', function($scope, $facebook) {
 }])
 .controller('EditCtrl', function($scope, $location, $routeParams, Cards) {
         var cardId = $routeParams.cardId, cardIndex;
@@ -239,5 +242,37 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
+.controller('LoginCtrl', ['$scope', '$facebook', '$firebase', 
+ function($scope, $facebook, $firebase) {
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+      $scope.status = $facebook.isConnected();
+      if($scope.status) {
+        $facebook.api('/me').then(function(user) {
+          $scope.user = user;
+        });
+      }
+    });
+
+    $scope.isLoggedIn = false;
+    $scope.login = function() {
+        $facebook.login().then(function() {
+            $scope.refresh();
+        });
+    }
+    $scope.refresh = function () {
+        $facebook.api("/me").then( 
+            function(response) {
+                $scope.welcomeMsg = "Welcome " + response.name;
+                $scope.isLoggedIn = true;
+            },
+            function(err) {
+                $scope.welcomeMsg = "Please log in";
+        });
+    }
+  
+    $scope.refresh();
+    
+}])
 
 ;
