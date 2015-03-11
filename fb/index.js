@@ -29,27 +29,34 @@ angular.module('myApp', ['ngFacebook'])
 
 .controller('myCtrl', ['$scope', '$facebook', function($scope, $facebook) {
     $scope.$on('fb.auth.authResponseChange', function() {
-      $scope.status = $facebook.isConnected();
-      if($scope.status) {
-        $facebook.api('/me').then(function(user) {
-          $scope.user = user;
-        });
-      }
+        $scope.status = $facebook.isConnected();
+        if($scope.status) {
+            $facebook.api('/me').then(function(user) {
+                $scope.user = user;
+                $scope.welcome = user.name;
+            }, function(err) {
+                $scope.welcome = "Please log in";
+            });
+        }
     });
+    
+    $scope.login = function () {
+        $facebook.login();
+    };
 
     $scope.loginToggle = function() {
-      if($scope.status) {
-        $facebook.logout();
-      } else {
-        $facebook.login();
-      }
+        if($scope.status) {
+            $facebook.logout();
+        } else {
+            $facebook.login();
+        }
     };
 
     $scope.getFriends = function() {
-      if(!$scope.status) return;
-      $facebook.cachedApi('/me/friends').then(function(friends) {
-        $scope.friends = friends.data;
-      });
+        if(!$scope.status) return;
+        $facebook.cachedApi('/me/friends').then(function(friends) {
+            $scope.friends = friends.data;
+        });
     }
 }])
 ;

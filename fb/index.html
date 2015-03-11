@@ -15,10 +15,19 @@
 
     <div ng-controller="fbCtrl">
         <div id="fb-root"></div>
-        <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
     </div>
 
     <div ng-controller="myCtrl">
+
+        <div class="container">
+            <h4>
+                {{welcome}}
+            </h4>
+            <button type="button" ng-click="login()" ng-hide="welcome" class="btn btn-default navbar-btn">
+                Login
+            </button>
+        </div>
+
         <h1>ngFacebook tests</h1>
         <div>
             <h2>Login</h2>

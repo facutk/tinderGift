@@ -242,16 +242,16 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('LoginCtrl', ['$scope', '$facebook', '$firebase', 
- function($scope, $facebook, $firebase) {
+.controller('LoginCtrl', ['$scope', '$facebook', '$firebase', '$timeout','$window',
+ function($scope, $facebook, $firebase, $timeout, $window) {
 
     $scope.$on('fb.auth.authResponseChange', function() {
-      $scope.status = $facebook.isConnected();
-      if($scope.status) {
-        $facebook.api('/me').then(function(user) {
-          $scope.user = user;
-        });
-      }
+        $scope.status = $facebook.isConnected();
+        if($scope.status) {
+            $facebook.api('/me').then(function(user) {
+                $scope.user = user;
+            });
+        }
     });
 
     $scope.isLoggedIn = false;
@@ -272,6 +272,21 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     }
   
     $scope.refresh();
+
+    /*
+        No quiero agregar este chequeo cabeza, pero no le encuentro la vuelta para que cargue siempre
+        el SDK de facebook.
+        A veces carga, a veces no... medio que hace lo que quiere.
+        Lo que defino aca es un timeout de 5 segundos.. si no cargo nada, ni por bien ni por mal,
+        destruyo toda la pagina y vuelvo a empezar
+    */
+    $timeout(function() {
+        console.log( "timeout, verificando welcomeMsg " );
+        if ( !$scope.welcomeMsg ) {
+            console.log( "welcomeMsg no encontrado! destruyendo ventana" );
+            $window.location.reload();
+        };
+    }, 15000);
     
 }])
 
