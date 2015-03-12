@@ -182,7 +182,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             .then( function( result ) {
                 var data = result.data;
                 if ( data.status == "ok") {
-                    $scope.card.thumbnail = data.thumbnail;
                     $scope.card.name = data.name;
                     $scope.card.price = data.price;
                     $scope.card.images = data.images;
