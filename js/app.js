@@ -1,4 +1,4 @@
-angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap'])
+angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap', 'dndLists'])
 
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 
@@ -247,31 +247,14 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('Example', ['$scope', '$facebook', '$firebase', 
- function($scope, $facebook, $firebase) {
+.controller('Example', ['$scope', function($scope) {
 
-    $scope.$on('fb.auth.authResponseChange', function() {
-      $scope.status = $facebook.isConnected();
-      if($scope.status) {
-        $facebook.api('/me').then(function(user) {
-          $scope.user = user;
-        });
-      }
-    });
+    $scope.list = [];
+    //$scope.lista.push({label: "Item A" + 1});
 
-    $scope.loginToggle = function() {
-      if($scope.status) {
-        $facebook.logout();
-      } else {
-        $facebook.login();
-      }
-    };
-
-    $scope.getFriends = function() {
-      if(!$scope.status) return;
-      $facebook.cachedApi('/me/friends').then(function(friends) {
-        $scope.friends = friends.data;
-      });
+    // Generate initial model
+    for (var i = 1; i <= 3; ++i) {
+        $scope.list.push( {label: "Item A" + i} );
     }
 
 }])

@@ -64,8 +64,14 @@
             </div>
 
             <div class="margin-bottom product-image-list">
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="image in card.images">
+                <ul class="list-group" dnd-list="card.images">
+                    <li ng-repeat="image in card.images"
+                        dnd-draggable="item"
+                        dnd-moved="card.images.splice($index, 1)"
+                        dnd-effect-allowed="move"
+                        class="list-group-item"
+                        >
+
                         <a href="#" editable-text="image">{{ image || "Sin títuto" }}</a>
                         <button class="btn btn-link product-image-right" 
                                 ng-click="removeImage(image)">
