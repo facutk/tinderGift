@@ -1,9 +1,12 @@
 angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap'])
+
 .value('fbURL', 'https://tindergift.firebaseio.com/')
+
 .config(['$facebookProvider', function($facebookProvider) {
-    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
-    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
+    $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    //$facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
 }])
+
 .run(['$rootScope', '$window', function($rootScope, $window) {
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -16,9 +19,37 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         $window.dispatchEvent(new Event('fb.load'));
     });
 }])
+
 .run(function(editableOptions) {
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 })
+
+.run(["$rootScope", "$location", function($rootScope, $location) {
+    $rootScope.$on("$routeChangeSuccess", function(user) {
+    });
+ 
+    $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj) {
+        if (eventObj.authenticated === false) {
+            $location.path("/login");
+        }
+    });
+}])
+
+.service('User', function ($window) {
+    return {
+        save: function ( user ) {
+            $window.localStorage.setItem( "user", angular.toJson( user ) );
+        },
+        load: function() {
+            return angular.fromJson( $window.localStorage.getItem("user") );
+        },
+        logout: function () {
+            $window.localStorage.removeItem( "user" );
+        }
+    };
+
+})
+
 .service('fbRef', function(fbURL) {
   return new Firebase(fbURL)
 })
@@ -39,24 +70,46 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 .config(function($routeProvider) { 
     $routeProvider
     .when('/', {
-        controller:'LoginCtrl',
-        templateUrl:'login.html',
-    })
-    .when('/landing', {
         controller:'LandingCtrl',
         templateUrl:'landing.html',
+        resolve: {
+            user: ["$q", "User", function($q, User) {
+                var user = User.load();
+
+                if (user) {
+                    return $q.when(user);
+                } else {
+                    return $q.reject({ authenticated: false });
+                }
+            }]
+        }
+    })
+    .when('/login', {
+        controller:'LoginController',
+        templateUrl:'login.html',
     })
     .when('/list', {
         controller:'ListCtrl',
         templateUrl:'list.html',
     })
     .when('/edit/:cardId', {
-          controller:'EditCtrl',
-          templateUrl:'detail.html'
+        controller:'EditCtrl',
+        templateUrl:'detail.html'
     })
     .when('/new', {
-          controller:'CreateCtrl',
-          templateUrl:'detail.html'
+        controller:'NewController',
+        templateUrl:'detail.html',
+        resolve: {
+            user: ["$q", "User", function($q, User) {
+                var user = User.load();
+
+                if (user) {
+                    return $q.when(user);
+                } else {
+                    return $q.reject({ authenticated: false });
+                }
+            }]
+        }
     })
     .when('/friends', {
           controller:'myCtrl',
@@ -65,6 +118,10 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     .when('/example', {
           controller:'Example',
           templateUrl:'example.html'
+    })
+    .when('/logout', {
+          controller:'LogoutController',
+          template:''
     })
     .otherwise({
         redirectTo:'/'
@@ -76,51 +133,29 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         return $location.path() === route;
     };
 })
-.controller('LandingCtrl', function($scope) {
-    
-})
+.controller('LandingCtrl', [ '$scope', 'User', 'user', function($scope, User, user) {
+    $scope.user = user;
+    $scope.logout = function () {
+
+        User.logout();
+
+    };
+}])
 
 .controller('ListCtrl', function($scope, Cards) {
     $scope.cards = Cards;
 })
  
-.controller('CreateCtrl', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook',
- function($scope, $location, Cards, MercadoLibre, $facebook) {
-/*
-    $scope.$on('fb.auth.authResponseChange', function() {
-      $scope.status = $facebook.isConnected();
-      if($scope.status) {
-        $facebook.api('/me').then(function(user) {
-          $scope.user = user;
-        });
-      }
-    });
-*/
-    $scope.isLoggedIn = false;
-    $scope.login = function() {
-        $facebook.login().then(function() {
-            $scope.refresh();
-        });
-    }
-    $scope.refresh = function () {
-        $facebook.api("/me").then( 
-            function(response) {
-                $scope.welcomeMsg = "Welcome " + response.name;
-                $scope.isLoggedIn = true;
-            },
-            function(err) {
-                $scope.welcomeMsg = "Please log in";
-        });
-    }
-  
-    $scope.refresh();
+.controller('NewController', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook', 'User', 'user',
+ function($scope, $location, Cards, MercadoLibre, $facebook, User, user ) {
 
     $scope.card = {};
     $scope.card.link = "";
     $scope.card.images = [];
     $scope.card.expires = false;
     $scope.card.approved = true;
-    $scope.card.creator = "Facu Tkaczyszyn";
+    $scope.card.creator = user.name;
+    $scope.card.id = user.id;
 
     $scope.card.last_modified = new Date();
 
@@ -242,51 +277,38 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('LoginCtrl', ['$scope', '$facebook', '$firebase', '$timeout','$window',
- function($scope, $facebook, $firebase, $timeout, $window) {
+.controller('LoginController', ['$scope', '$facebook', '$firebase', '$location', 'User', 
+ function($scope, $facebook, $firebase, $location, User) {
+    
+    $scope.refresh = function () {
+        if( $facebook.isConnected() ) {
+            $facebook.api('/me').then(
+                function(user) {
+                    $scope.user = user;
+                    User.save( $scope.user );
+                }
+            );
+        };
+    };
 
     $scope.$on('fb.auth.authResponseChange', function() {
-        $scope.status = $facebook.isConnected();
-        if($scope.status) {
-            $facebook.api('/me').then(function(user) {
-                $scope.user = user;
-            });
-        }
+        $scope.refresh();
+        $scope.fbLoaded = true;
     });
-
-    $scope.isLoggedIn = false;
     $scope.login = function() {
         $facebook.login().then(function() {
             $scope.refresh();
         });
-    }
-    $scope.refresh = function () {
-        $facebook.api("/me").then( 
-            function(response) {
-                $scope.welcomeMsg = "Welcome " + response.name;
-                $scope.isLoggedIn = true;
-            },
-            function(err) {
-                $scope.welcomeMsg = "Please log in";
-        });
-    }
-  
-    $scope.refresh();
+    }  
 
-    /*
-        No quiero agregar este chequeo cabeza, pero no le encuentro la vuelta para que cargue siempre
-        el SDK de facebook.
-        A veces carga, a veces no... medio que hace lo que quiere.
-        Lo que defino aca es un timeout de 5 segundos.. si no cargo nada, ni por bien ni por mal,
-        destruyo toda la pagina y vuelvo a empezar
-    */
-    $timeout(function() {
-        console.log( "timeout, verificando welcomeMsg " );
-        if ( !$scope.welcomeMsg ) {
-            console.log( "welcomeMsg no encontrado! destruyendo ventana" );
-            $window.location.reload();
-        };
-    }, 15000);
+    $scope.refresh();
+    
+}])
+
+.controller('LogoutController', ['$scope', '$location', 'User', function($scope, $location, User) {
+
+    User.logout();
+    $location.path('/');
     
 }])
 

@@ -103,3 +103,6 @@ p {
 .list-group-item {
     line-height: 30px;
 }
+.login-center {
+    text-align: center;
+}
