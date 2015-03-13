@@ -1,23 +1,11 @@
 <div class="product-image-list">
 
-<!-- The dnd-list directive allows to drop elements into it.
-     The dropped data will be added to the referenced list -->
-<ul dnd-list="card.images">
-    <!-- The dnd-draggable directive makes an element draggable and will
-         transfer the object that was assigned to it. If an element was
-         dragged away, you have to remove it from the original list
-         yourself using the dnd-moved attribute -->
-    <li ng-repeat="image in card.images"
-        dnd-draggable="image"
-        dnd-moved="card.images.splice($index, 1)"
-        dnd-effect-allowed="move"
-        dnd-selected="models.selected = image"
-        ng-class="{'selected': models.selected === image}"
-        >
-        {{image.label}}
-    </li>
+    <button ng-click="more()">More</button>
 
-</ul>
+    <ul>
+        <li ng-repeat="card in cards">
+            {{card.name}}
+        </li>
+    </ul>
 
-<pre>{{ card.images | json:4 }}</pre>
 </div>

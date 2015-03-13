@@ -21,7 +21,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 }])
 
 .run(function(editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+    editableOptions.theme = 'bs3';
 })
 
 .run(["$rootScope", "$location", function($rootScope, $location) {
@@ -49,12 +49,18 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     };
 
 })
-
+.factory('Auth', ['$firebaseAuth', 'fbURL', function($firebaseAuth, fbURL) {
+    var ref = new Firebase(fbURL);
+    return $firebaseAuth(ref);
+}])
 .service('fbRef', function(fbURL) {
   return new Firebase(fbURL)
 })
-.service('Cards', function(fbURL, $firebase){
-    return $firebase(new Firebase(fbURL + 'card/')).$asArray();
+.factory('Auth', ['$firebaseAuth', 'fbRef', function($firebaseAuth, fbRef) {
+    return $firebaseAuth(fbRef);
+}])
+.service('Cards', function(fbURL, $firebase, $firebaseArray){
+    return $firebaseArray( new Firebase(fbURL + 'card/') );
 })
 .factory('MercadoLibre', function($http){
     return {
@@ -146,8 +152,11 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.cards = Cards;
 })
  
-.controller('NewController', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook', 'User', 'user',
- function($scope, $location, Cards, MercadoLibre, $facebook, User, user ) {
+.controller('NewController', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook', 'User', 'user', 'Auth',
+ function($scope, $location, Cards, MercadoLibre, $facebook, User, user, Auth ) {
+
+    $scope.auth = Auth;
+    console.log( $scope.auth.$getAuth() );
 
     $scope.card = {};
     $scope.card.link = "";
@@ -248,22 +257,36 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('Example', ['$scope', function($scope) {
+.controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef', function( $scope, $firebase, $firebaseArray, fbRef ) {
 
-    $scope.card = {
-        images: []
+    $scope.last_seen = '';
+    $scope.cards = [];
+
+    var pagination_len = 3;
+    $scope.more = function (){
+        $scope.cards = $firebaseArray( 
+                            fbRef.child('card')
+                            .orderByKey()
+                            .startAt( $scope.last_seen )
+                            .limitToFirst( pagination_len +1 ))
+                            .$loaded().then(function(cards){
+            
+            if ( cards.length ) {
+                $scope.last_seen = cards[ cards.length -1 ].$id;
+            };
+            if ( cards.length === pagination_len+1 ) {
+                cards.pop();
+            };
+            $scope.cards = cards;
+
+        });
     };
-    //$scope.lista.push({label: "Item A" + 1});
-
-    // Generate initial model
-    for (var i = 1; i <= 3; ++i) {
-        $scope.card.images.push( {label: "Item A" + i} );
-    }
+    
 
 }])
 
-.controller('LoginController', ['$scope', '$facebook', '$firebase', '$location', 'User', 
- function($scope, $facebook, $firebase, $location, User) {
+.controller('LoginController', ['$scope', '$facebook', '$firebase', '$location', 'User', '$firebase',
+ function($scope, $facebook, $firebase, $location, User, $firebase) {
     
     $scope.refresh = function () {
         if( $facebook.isConnected() ) {
@@ -287,6 +310,33 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     }  
 
     $scope.refresh();
+
+
+    if (sessionStorage.reload) {
+        delete sessionStorage.reload;
+        setTimeout(function() {
+            location.reload();
+        }, 5000)
+    }
+    var ref = new Firebase("https://tindergift.firebaseio.com/");
+    ref.onAuth(function(authData) {
+        setTimeout(function() {
+
+             if (authData !== null) {
+                //console.log("Authenticated successfully with payload:", authData);
+            } else {
+                // Try to authenticate with Facebook via OAuth redirection
+                sessionStorage.reload = true;
+                ref.authWithOAuthRedirect("facebook", function(error, authData) {
+                    if (error) {
+                        //console.log("Login Failed!", error);
+                    }
+                });
+            }
+        }, 5000);
+
+
+    });
     
 }])
 

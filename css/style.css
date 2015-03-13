@@ -173,3 +173,7 @@ p {
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+ul[dnd-list], ul[dnd-list] > li { 
+    position: relative;
+}
