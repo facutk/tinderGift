@@ -11,7 +11,7 @@
                     </p>
                     <p>
                         <div class="card-creator">
-                            <span>{{ card.creator }} @ {{ card.last_modified | date:'medium' }}</span>
+                            <span>{{ card.creator_name }} @ {{ card.modified_date | date:'medium' }}</span>
                         </div>
                     </p>
                 </div>
@@ -56,7 +56,7 @@
                     <carousel>
                         <slide ng-repeat="image in card.images">
                             <img class="img-rounded img-responsive img-place"
-                                 ng-src="{{image}}" style="margin:auto;">
+                                 ng-src="{{ image.url }}" style="margin:auto;">
                         </slide>
                     </carousel>
                 </div>
@@ -66,13 +66,13 @@
             <div class="margin-bottom product-image-list">
                 <ul class="list-group" dnd-list="card.images">
                     <li ng-repeat="image in card.images"
-                        dnd-draggable="item"
+                        dnd-draggable="image"
                         dnd-moved="card.images.splice($index, 1)"
                         dnd-effect-allowed="move"
                         class="list-group-item"
                         >
 
-                        <a href="#" editable-text="image">{{ image || "Sin títuto" }}</a>
+                        <a href="#" editable-text="image.url">{{ image.url || "Sin títuto" }}</a>
                         <button class="btn btn-link product-image-right" 
                                 ng-click="removeImage(image)">
 

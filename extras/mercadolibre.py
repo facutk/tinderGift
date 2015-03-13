@@ -40,8 +40,7 @@ def get_ml_data( ml_url ):
         for img in imgs:
             img_src = img['src']
             if img_src[0:4] != "data":
-                images.append( img_src )
-        images = list( set( images ) )
+                images.append( {'url': img_src } )
 
         ret['status'] = "ok"
         ret['name'] = name

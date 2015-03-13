@@ -3,8 +3,8 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 
 .config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
-    //$facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
+    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
 }])
 
 .run(['$rootScope', '$window', function($rootScope, $window) {
@@ -154,24 +154,25 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.card.images = [];
     $scope.card.expires = false;
     $scope.card.approved = true;
-    $scope.card.creator = user.name;
-    $scope.card.id = user.id;
+    $scope.card.creator_name = user.name;
+    $scope.card.creator_id = user.id;
+    $scope.card.modified_date = new Date();
 
-    $scope.card.last_modified = new Date();
 
     $scope.save = function() {
+        $scope.card.modified_date = Firebase.ServerValue.TIMESTAMP;
         Cards.$add($scope.card).then(function(data) {
             $location.path('/');
         });
     };
 
     $scope.addImage = function() {
-        $scope.card.images.push( $scope.newImage );
+        $scope.card.images.push( { url: $scope.newImage } );
         $scope.newImage = '';
     };
     $scope.removeImage = function(image) {
         var index = $scope.card.images.indexOf(image)
-        $scope.card.images.splice( index, 1);  
+        $scope.card.images.splice( index, 1 );
     };
     $scope.isML = function() {
         return ( $scope.card.link.indexOf("mercadolibre.com") > -1 );
@@ -249,12 +250,14 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 .controller('Example', ['$scope', function($scope) {
 
-    $scope.list = [];
+    $scope.card = {
+        images: []
+    };
     //$scope.lista.push({label: "Item A" + 1});
 
     // Generate initial model
     for (var i = 1; i <= 3; ++i) {
-        $scope.list.push( {label: "Item A" + i} );
+        $scope.card.images.push( {label: "Item A" + i} );
     }
 
 }])
