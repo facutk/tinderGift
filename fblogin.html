@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="fblogin">
+<head lang="en">
+    <meta charset="UTF-8">
+</head>
+<body ng-controller="LoginController">
+
+    <div id="fb-root"></div>
+
+    <h4>{{user.name}}</h4>
+
+    <div class='uil-facebook-css' style='-webkit-transform:scale(0.16)' ng-hide="fbLoaded">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <button class="fbtn primary" ng-click="login()" ng-show="fbLoaded && !user">Login with Facebook</button>
+
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/fbootstrap.css">
+    <link rel="stylesheet" href="css/loading-facebook.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="js/ngFacebook.js"></script>
+
+    <script>
+angular.module('fblogin', ['ngFacebook'])
+.config(['$facebookProvider', function($facebookProvider) {
+    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
+}])
+.run(['$rootScope', '$window', function($rootScope, $window) {
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    $rootScope.$on('fb.load', function() {
+      $window.dispatchEvent(new Event('fb.load'));
+    });
+}])
+.service('User', function ($window) {
+    return {
+        save: function ( user ) {
+            $window.localStorage.setItem( "user", angular.toJson( user ) );
+        },
+        load: function() {
+            return angular.fromJson( $window.localStorage.getItem("user") );
+        },
+        logout: function () {
+            $window.localStorage.removeItem( "user" );
+        }
+    };
+
+})
+.controller('LoginController', ['$scope', '$facebook', 'User', function($scope, $facebook, User) {
+
+    $scope.refresh = function () {
+        console.log( "refresh" );
+        if( $facebook.isConnected() ) {
+            $facebook.api('/me').then(
+                function(user) {
+                    $scope.user = user;
+                    User.save( $scope.user );
+                }
+            );
+        };
+    };
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+        console.log( "fb.auth.authResponseChange" );
+        $scope.refresh();
+        $scope.fbLoaded = true;
+    });
+    
+    $scope.login = function() {
+        $facebook.login().then(function() {
+            $scope.refresh();
+        });
+    }
+
+}])
+;
+</script>
+</body>
+</html>

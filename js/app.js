@@ -3,10 +3,11 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 
 .config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
-    //$facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
+    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
 }])
 
+/*
 .run(['$rootScope', '$window', function($rootScope, $window) {
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -19,6 +20,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         $window.dispatchEvent(new Event('fb.load'));
     });
 }])
+*/
 
 .run(function(editableOptions) {
     editableOptions.theme = 'bs3';
@@ -314,11 +316,14 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
   };
 })
 
-.controller('LoginController', ['$scope', '$facebook', '$firebase', '$location', 'User', '$firebase',
+.controller('LoginController', 
+ ['$scope', '$facebook', '$firebase', '$location', 'User', '$firebase',
  function($scope, $facebook, $firebase, $location, User, $firebase) {
 
+
+/*
     $scope.refresh = function () {
-        //console.log( "refresh" );
+        console.log( "refresh" );
         if( $facebook.isConnected() ) {
             $facebook.api('/me').then(
                 function(user) {
@@ -330,7 +335,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     };
     
     $scope.$on('fb.auth.authResponseChange', function() {
-        //console.log( "fb.auth.authResponseChange" );
+        console.log( "fb.auth.authResponseChange" );
         $scope.refresh();
         $scope.fbLoaded = true;
     });
@@ -342,6 +347,9 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             $scope.refresh();
         });
     }  
+
+*/
+
 
 
 
