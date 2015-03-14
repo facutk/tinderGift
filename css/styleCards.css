@@ -68,3 +68,14 @@ td-card img {
 
 img {
   -webkit-user-drag: none; }
+
+td-cards {
+  display: block;
+}
+td-card {
+  display: block;
+}
+td-card img {
+  max-width: 100%;
+  max-height: 100%;
+}
