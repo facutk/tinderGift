@@ -1,4 +1,4 @@
-angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap', 'dndLists'])
+angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap', 'dndLists', 'ionic', 'ionic.contrib.ui.tinderCards'])
 
 .value('fbURL', 'https://tindergift.firebaseio.com/')
 
@@ -165,11 +165,11 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.card.approved = true;
     $scope.card.creator_name = user.name;
     $scope.card.creator_id = user.id;
-    $scope.card.modified_date = new Date();
+    $scope.card.timestamp = new Date();
 
 
     $scope.save = function() {
-        $scope.card.modified_date = Firebase.ServerValue.TIMESTAMP;
+        $scope.card.timestamp = Firebase.ServerValue.TIMESTAMP;
         Cards.$add($scope.card).then(function(data) {
             $location.path('/');
         });
@@ -258,7 +258,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 }])
 
 .controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef', function( $scope, $firebase, $firebaseArray, fbRef ) {
-
+/*
     $scope.last_seen = '';
     $scope.cards = [];
 
@@ -274,17 +274,44 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             if ( cards.length ) {
                 $scope.last_seen = cards[ cards.length -1 ].$id;
             };
-            if ( cards.length === pagination_len+1 ) {
+            if ( cards.length === pagination_len+1) {
                 cards.pop();
             };
             $scope.cards = cards;
 
         });
     };
-    
+    */
+  console.log('CARDS CTRL');
+  var cardTypes = [
+    { image: 'https://pbs.twimg.com/profile_images/546942133496995840/k7JAxvgq.jpeg' },
+    { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
+    { image: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg' },
+  ];
+
+  $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+
+  $scope.cardDestroyed = function(index) {
+    $scope.cards.splice(index, 1);
+  };
+
+  $scope.addCard = function() {
+    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+    newCard.id = Math.random();
+    $scope.cards.push(angular.extend({}, newCard));
+  }
 
 }])
-
+.controller('CardCtrl', function($scope, TDCardDelegate) {
+  $scope.cardSwipedLeft = function(index) {
+    console.log('LEFT SWIPE');
+    $scope.addCard();
+  };
+  $scope.cardSwipedRight = function(index) {
+    console.log('RIGHT SWIPE');
+    $scope.addCard();
+  };
+})
 .controller('LoginController', ['$scope', '$facebook', '$firebase', '$location', 'User', '$firebase',
  function($scope, $facebook, $firebase, $location, User, $firebase) {
     
@@ -346,5 +373,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $location.path('/');
     
 }])
+
+
 
 ;

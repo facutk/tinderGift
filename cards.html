@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="tinderGiftApp">
+<head>
+    <title>TinderGift</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/fbootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/xeditable.css">
+    <link rel="stylesheet" type="text/css" href="css/loading-facebook.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/styleCards.css">
+    <link href="//code.ionicframework.com/1.0.0-beta.14/css/ionic.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/ionic.tdcards.css">
+    <link rel="stylesheet" href="css/styleCards.css">
+
+    <script src='//code.jquery.com/jquery-2.0.2.js'></script> 
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js'></script> 
+    <script src='//connect.facebook.net/en_US/sdk.js'></script>
+    <script src="//code.ionicframework.com/collide/0.0.4/collide.js"></script>
+    <script src="//code.ionicframework.com/1.0.0-beta.14/js/ionic.bundle.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+    <script src="//cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+    <script src="//cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+
+    <script src="js/ionic.tdcards.js"></script>
+    <script src="js/angular-drag-and-drop-lists.min.js"></script>
+    <script src="js/xeditable.min.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script src="js/ngFacebook.js"></script>
+    <script src="cards.js"></script>
+</head>
+<body>
+  <div id="fb-root"></div> 
+    <div class="container canvas">
+        <div ng-controller="CardsCtrl">
+
+<td-cards>
+    <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
+        <div class="image" ng-controller="CardCtrl">
+            <div class="no-text">NOPE</div>
+            <img ng-src="{{card.image}}">
+            <div class="yes-text">LIKE</div>
+        </div>
+    </td-card>
+</td-cards>
+
+        </div>
+    <div>
+</body>
+</html>
