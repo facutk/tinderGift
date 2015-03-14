@@ -257,7 +257,8 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
 
 }])
 
-.controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef', function( $scope, $firebase, $firebaseArray, fbRef ) {
+.controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef',
+    function( $scope, $firebase, $firebaseArray, fbRef ) {
 /*
     $scope.last_seen = '';
     $scope.cards = [];
@@ -312,10 +313,12 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.addCard();
   };
 })
+
 .controller('LoginController', ['$scope', '$facebook', '$firebase', '$location', 'User', '$firebase',
  function($scope, $facebook, $firebase, $location, User, $firebase) {
-    
+
     $scope.refresh = function () {
+        //console.log( "refresh" );
         if( $facebook.isConnected() ) {
             $facebook.api('/me').then(
                 function(user) {
@@ -325,18 +328,23 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             );
         };
     };
-
+    
     $scope.$on('fb.auth.authResponseChange', function() {
+        //console.log( "fb.auth.authResponseChange" );
         $scope.refresh();
         $scope.fbLoaded = true;
     });
+
+    $scope.refresh();
+
     $scope.login = function() {
         $facebook.login().then(function() {
             $scope.refresh();
         });
     }  
 
-    $scope.refresh();
+
+
 
 
     if (sessionStorage.reload) {
@@ -361,7 +369,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
                 });
             }
         }, 5000);
-
 
     });
     
