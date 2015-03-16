@@ -203,8 +203,8 @@ angular.module('tinderGiftApp', ['firebase','ngRoute', 'xeditable', 'ui.bootstra
         };
 })
 
-.controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef',
-    function( $scope, $firebase, $firebaseArray, fbRef ) {
+.controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef', '$http',
+    function( $scope, $firebase, $firebaseArray, fbRef, $http ) {
 /*
     $scope.last_seen = '';
     $scope.cards = [];
@@ -228,7 +228,18 @@ angular.module('tinderGiftApp', ['firebase','ngRoute', 'xeditable', 'ui.bootstra
 
         });
     };
+    //curl 'https://tindergift.firebaseio.com/card.json?orderBy="$key"&limitToFirst=2&print=pretty&startAt="-JkJd8_v20pXIO4h73Xi"
     */
+    $scope.more = function (){
+        $http.get( 'https://tindergift.firebaseio.com/card.json?orderBy="$key"&limitToFirst=2&print=pretty&startAt="-JkJd8_v20pXIO4h73Xi"' ).then( function(response){
+            console.log( response );
+            if ( response.status == 200 ) {
+               $scope.cardlist = angular.fromJson( response.data ); 
+            };
+            $
+        });
+    };
+
   var cardTypes = [
     { image: 'https://pbs.twimg.com/profile_images/546942133496995840/k7JAxvgq.jpeg' },
     { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
