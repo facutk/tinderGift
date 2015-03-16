@@ -55,12 +55,10 @@ angular.module('fblogin', ['ngFacebook'])
             $window.localStorage.removeItem( "user" );
         }
     };
-
 })
 .controller('LoginController', ['$scope', '$facebook', 'User', function($scope, $facebook, User) {
 
     $scope.refresh = function () {
-        console.log( "refresh" );
         if( $facebook.isConnected() ) {
             $facebook.api('/me').then(
                 function(user) {
@@ -72,7 +70,6 @@ angular.module('fblogin', ['ngFacebook'])
     };
 
     $scope.$on('fb.auth.authResponseChange', function() {
-        console.log( "fb.auth.authResponseChange" );
         $scope.refresh();
         $scope.fbLoaded = true;
     });

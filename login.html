@@ -1,13 +1,7 @@
 <div class="login-center">
 
-    <h4>{{user.name}}</h4>
+    <h4>{{user.displayName}}</h4>
 
-    <div class='uil-facebook-css' style='-webkit-transform:scale(0.16)' ng-hide="fbLoaded">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-
-    <button class="fbtn primary" ng-click="login()" ng-show="fbLoaded && !user">Login with Facebook</button>
+    <button class="fbtn primary" ng-click="login()" ng-show="!user">Login with Facebook</button>
 
 </div>

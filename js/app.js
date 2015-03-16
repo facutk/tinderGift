@@ -1,32 +1,12 @@
-angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable', 'ui.bootstrap', 'dndLists', 'ionic', 'ionic.contrib.ui.tinderCards'])
+angular.module('tinderGiftApp', ['firebase','ngRoute', 'xeditable', 'ui.bootstrap', 'dndLists', 'ionic', 'ionic.contrib.ui.tinderCards'])
 
 .value('fbURL', 'https://tindergift.firebaseio.com/')
-
-.config(['$facebookProvider', function($facebookProvider) {
-    //$facebookProvider.setAppId('342947875890308').setPermissions(['email','user_friends']);
-    $facebookProvider.setAppId('346517602200002').setPermissions(['email','user_friends']); // DEV
-}])
-
-/*
-.run(['$rootScope', '$window', function($rootScope, $window) {
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    $rootScope.$on('fb.load', function() {
-        $window.dispatchEvent(new Event('fb.load'));
-    });
-}])
-*/
 
 .run(function(editableOptions) {
     editableOptions.theme = 'bs3';
 })
 
-.run(["$rootScope", "$location", function($rootScope, $location) {
+.run(['$rootScope', '$location', '$window', function($rootScope, $location, $window) {
     $rootScope.$on("$routeChangeSuccess", function(user) {
     });
  
@@ -49,8 +29,8 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             $window.localStorage.removeItem( "user" );
         }
     };
-
 })
+
 .factory('Auth', ['$firebaseAuth', 'fbURL', function($firebaseAuth, fbURL) {
     var ref = new Firebase(fbURL);
     return $firebaseAuth(ref);
@@ -110,7 +90,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         resolve: {
             user: ["$q", "User", function($q, User) {
                 var user = User.load();
-
                 if (user) {
                     return $q.when(user);
                 } else {
@@ -154,21 +133,21 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $scope.cards = Cards;
 })
  
-.controller('NewController', ['$scope', '$location', 'Cards', 'MercadoLibre', '$facebook', 'User', 'user', 'Auth',
- function($scope, $location, Cards, MercadoLibre, $facebook, User, user, Auth ) {
+.controller('NewController', ['$scope', '$location', 'Cards', 'MercadoLibre', 'User', 'user', 'Auth',
+ function($scope, $location, Cards, MercadoLibre, User, user, Auth ) {
 
     $scope.auth = Auth;
     console.log( $scope.auth.$getAuth() );
 
+    console.log( "user: ", user );
     $scope.card = {};
     $scope.card.link = "";
     $scope.card.images = [];
     $scope.card.expires = false;
     $scope.card.approved = true;
-    $scope.card.creator_name = user.name;
+    $scope.card.creator_name = user.displayName;
     $scope.card.creator_id = user.id;
     $scope.card.timestamp = new Date();
-
 
     $scope.save = function() {
         $scope.card.timestamp = Firebase.ServerValue.TIMESTAMP;
@@ -203,6 +182,7 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     }
 
 }])
+
 .controller('EditCtrl', function($scope, $location, $routeParams, Cards) {
         var cardId = $routeParams.cardId, cardIndex;
      
@@ -222,42 +202,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
             });
         };
 })
-
-.controller('myCtrl', ['$scope', '$facebook', '$firebase', function($scope, $facebook, $firebase) {
-
-    $scope.$on('fb.auth.authResponseChange', function() {
-        $scope.status = $facebook.isConnected();
-        if($scope.status) {
-            $facebook.api('/me').then(function(user) {
-                $scope.user = user;
-                
-                console.log( $scope.user );
-
-                var ref = new Firebase("https://tindergift.firebaseio.com/");
-                console.log( ref.getAuth() );
-            });
-        };
-    });
-
-    $scope.getFriends = function() {
-        if(!$scope.status) return;
-        $facebook.api('/me/friends').then(function(friends) {
-            console.log( friends );
-            $scope.friends = friends.data;
-        });
-    };
-    
-    $scope.prueba = function() {
-    
-    };
-    
-    $scope.chau = function() {
-    
-    
-    };
-    
-
-}])
 
 .controller('Example', ['$scope', '$firebase', '$firebaseArray', 'fbRef',
     function( $scope, $firebase, $firebaseArray, fbRef ) {
@@ -285,7 +229,6 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
         });
     };
     */
-  console.log('CARDS CTRL');
   var cardTypes = [
     { image: 'https://pbs.twimg.com/profile_images/546942133496995840/k7JAxvgq.jpeg' },
     { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
@@ -316,70 +259,23 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
   };
 })
 
-.controller('LoginController', 
- ['$scope', '$facebook', '$firebase', '$location', 'User', '$firebase',
- function($scope, $facebook, $firebase, $location, User, $firebase) {
+.controller('LoginController', ['$scope', '$firebase', '$location', 'User', '$firebase', 'fbURL',
+ function($scope, $firebase, $location, User, $firebase, fbURL) {
 
-
-/*
-    $scope.refresh = function () {
-        console.log( "refresh" );
-        if( $facebook.isConnected() ) {
-            $facebook.api('/me').then(
-                function(user) {
-                    $scope.user = user;
-                    User.save( $scope.user );
-                }
-            );
+    var ref = new Firebase( fbURL );
+    ref.onAuth(function(authData) {
+         if (authData !== null) {
+            $scope.user = authData.facebook;
+            console.log( $scope.user );
+            User.save( $scope.user );
+            $location.path('/');
         };
-    };
-    
-    $scope.$on('fb.auth.authResponseChange', function() {
-        console.log( "fb.auth.authResponseChange" );
-        $scope.refresh();
-        $scope.fbLoaded = true;
     });
-
-    $scope.refresh();
 
     $scope.login = function() {
-        $facebook.login().then(function() {
-            $scope.refresh();
-        });
-    }  
+        ref.authWithOAuthRedirect("facebook", function(error, authData) { /* Redirect */ });
+    };
 
-*/
-
-
-
-
-
-
-    if (sessionStorage.reload) {
-        delete sessionStorage.reload;
-        setTimeout(function() {
-            location.reload();
-        }, 5000)
-    }
-    var ref = new Firebase("https://tindergift.firebaseio.com/");
-    ref.onAuth(function(authData) {
-        setTimeout(function() {
-
-             if (authData !== null) {
-                //console.log("Authenticated successfully with payload:", authData);
-            } else {
-                // Try to authenticate with Facebook via OAuth redirection
-                sessionStorage.reload = true;
-                ref.authWithOAuthRedirect("facebook", function(error, authData) {
-                    if (error) {
-                        //console.log("Login Failed!", error);
-                    }
-                });
-            }
-        }, 5000);
-
-    });
-    
 }])
 
 .controller('LogoutController', ['$scope', '$location', 'User', function($scope, $location, User) {
@@ -388,7 +284,5 @@ angular.module('tinderGiftApp', ['ngFacebook', 'firebase','ngRoute', 'xeditable'
     $location.path('/');
     
 }])
-
-
 
 ;
